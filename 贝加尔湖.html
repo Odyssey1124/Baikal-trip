@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>贝加尔湖七天六晚攻略 · 完整版</title>
+<script src="https://webapi.amap.com/maps?v=1.4.15&key=21238a008f8ea6a207e6f5446b300a38&plugin=AMap.ToolBar,AMap.Scale,AMap.TileLayer.Satellite"></script>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<style>
+  :root{--orange:#ff8a4c;--orange-d:#e8613c;--orange-l:#ffe8d6;--ink:#4a3a2e;--blue:#5b9bd5;--teal:#3aa6a0}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'PingFang SC','Microsoft YaHei',sans-serif}
+  body{background:linear-gradient(180deg,#e8f4ff,#fff6ee 40%,#ffeee4);color:var(--ink);padding-bottom:90px;overflow-x:hidden}
+  body.lock{overflow:hidden}
+
+  /* ===== 飘雪 ===== */
+  #snow,#isnow{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+  #snow{z-index:1}
+  #snow span,#isnow span{position:absolute;top:-40px;animation:fall linear infinite;opacity:.85}
+  @keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+
+  /* ===== 开场动画（实景电影版） ===== */
+  #intro{position:fixed;inset:0;z-index:9999;background:#060b12;cursor:pointer;
+    transition:opacity 1.1s ease, visibility 1.1s;overflow:hidden}
+  #intro.out{opacity:0;visibility:hidden}
+  #intro .slide{position:absolute;inset:0;background-size:cover;background-position:center;
+    opacity:0;transition:opacity 1.8s ease;transform:scale(1.1)}
+  #intro .slide.on{opacity:1;animation:kb 9s ease-out forwards}
+  @keyframes kb{from{transform:scale(1.08)}to{transform:scale(1.22)}}
+  #intro .veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(4,10,18,.55) 0%,rgba(4,10,18,.25) 40%,rgba(4,10,18,.72) 100%)}
+  #intro h1{position:absolute;left:0;right:0;top:42%;text-align:center;color:#f2f8fd;
+    font-size:clamp(20px,4vw,38px);font-weight:300;letter-spacing:.6em;text-indent:.6em;
+    text-shadow:0 2px 24px rgba(0,0,0,.75);opacity:0;animation:titlein 2.6s ease 1s forwards;z-index:2}
+  @keyframes titlein{from{opacity:0;letter-spacing:.9em;transform:translateY(14px)}
+    to{opacity:1;letter-spacing:.35em;transform:none}}
+  #intro .sub{position:absolute;left:0;right:0;top:calc(42% + 54px);text-align:center;color:#c8dcea;
+    font-size:13px;letter-spacing:.5em;text-indent:.5em;opacity:0;animation:fadein2 1.6s ease 2.4s forwards;z-index:2}
+  @keyframes fadein2{to{opacity:.9}}
+  #intro .meta{position:absolute;left:0;right:0;bottom:7%;text-align:center;color:#9fb8c9;
+    font-size:12px;letter-spacing:.3em;opacity:0;animation:fadein2 1.6s ease 3.4s forwards;z-index:2}
+  .enter{position:absolute;left:0;right:0;bottom:3%;text-align:center;color:#dceaf5;
+    font-size:13.5px;letter-spacing:.4em;text-indent:.4em;opacity:0;animation:hint 2.2s ease 4.2s forwards;z-index:2}
+  @keyframes hint{0%{opacity:0}30%{opacity:.95}45%{opacity:.35}60%{opacity:.95}100%{opacity:.95}}
+  #isnow{z-index:10000;pointer-events:none}
+
+  /* ===== 主页面 ===== */
+  header{position:relative;z-index:2;background:linear-gradient(135deg,#7ec8e3,#a8d8ea 45%,#ffd7c2);padding:38px 20px 20px;text-align:center;box-shadow:0 4px 20px rgba(126,200,227,.35)}
+  header h1{font-size:30px;letter-spacing:2px;text-shadow:0 2px 0 #fff}
+  header .sub{margin-top:6px;font-size:14px;color:#5a7d9a;font-weight:600}
+  .countdown{position:relative;z-index:2;max-width:640px;margin:-26px auto 0;background:#fff;border-radius:22px;
+    box-shadow:0 8px 30px rgba(126,160,200,.25);padding:18px 24px 16px;text-align:center;border:3px dashed #ffd0b0}
+  .cd-title{font-size:14px;color:#c96a3a;font-weight:700;margin-bottom:8px}
+  .cd-nums{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+  .cd-cell{background:linear-gradient(160deg,#fff4ec,#ffe3d0);border-radius:16px;padding:10px 0;width:76px;
+    box-shadow:0 3px 10px rgba(232,97,60,.15)}
+  .cd-cell b{display:block;font-size:26px;color:var(--orange-d);font-variant-numeric:tabular-nums}
+  .cd-cell i{font-style:normal;font-size:11.5px;color:#b0856a}
+  .cd-tip{margin-top:10px;font-size:13px;color:#a07850;cursor:pointer;user-select:none}
+  .cd-tip:hover{color:var(--orange-d)}
+  .globalbar{position:relative;z-index:2;max-width:640px;margin:14px auto 0;background:#fff;border-radius:999px;
+    padding:10px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(126,160,200,.18);flex-wrap:wrap}
+  .gbar{flex:1;min-width:120px;height:12px;background:#f0e6dc;border-radius:99px;overflow:hidden}
+  .gfill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#ffb7c5,#ff8a4c,#ffd166);transition:.5s}
+  .glevel{font-size:13px;font-weight:700;color:var(--orange-d);white-space:nowrap}
+  .badges{display:flex;gap:6px;font-size:19px}
+  .badge-slot{width:32px;height:32px;background:#f4ede4;border-radius:50%;display:flex;align-items:center;justify-content:center;filter:grayscale(1);opacity:.45;transition:.4s}
+  .badge-slot.on{filter:none;opacity:1;background:#fff3e4;box-shadow:0 0 0 2.5px #ffd0a0}
+  nav{position:sticky;top:0;z-index:500;background:#fffefb;box-shadow:0 3px 14px rgba(160,120,80,.18);display:flex;overflow-x:auto;margin-top:18px}
+  nav button{flex-shrink:0;border:none;background:none;padding:13px 17px;font-size:15px;font-weight:700;color:#b09478;cursor:pointer;border-bottom:3px solid transparent;transition:.2s}
+  nav button:hover{transform:translateY(-2px)}
+  nav button.on{color:var(--orange-d);border-bottom-color:var(--orange-d);background:#fff3ea}
+  main{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:24px 16px}
+  .day{display:none}.day.show{display:block;animation:fadein .35s}
+  @keyframes fadein{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+  .dayhead{background:linear-gradient(120deg,#ff9a62,#ff8a4c 60%,#ffb26b);color:#fff;border-radius:18px 18px 0 0;padding:14px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .dayhead .badge{background:#fff;color:var(--orange-d);font-weight:800;border-radius:12px;padding:3px 12px;font-size:16px}
+  .dayhead h2{font-size:19px}
+  .progress{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px}
+  .pbar{width:100px;height:9px;background:rgba(255,255,255,.4);border-radius:99px;overflow:hidden}
+  .pfill{height:100%;width:0;background:#fff;border-radius:99px;transition:.4s}
+  .warnbar{background:#fff9e0;border:1.5px solid #ffe39a;padding:9px 20px;font-size:13.5px}
+  table{width:100%;border-collapse:collapse;background:#fff;box-shadow:0 8px 24px rgba(255,150,90,.12);font-size:14px}
+  th{background:var(--orange-l);color:#c96a3a;padding:10px 12px;text-align:left;border-bottom:2px solid #ffd9bd}
+  th.ck{text-align:center;width:52px}
+  td{padding:10px 12px;border-bottom:1px solid #fdf0e4;vertical-align:top;line-height:1.55;transition:.2s}
+  tbody tr:hover td{background:#fff8f2}
+  td.t{white-space:nowrap;font-weight:700;color:var(--orange-d);width:105px}
+  td.v{white-space:nowrap;color:var(--blue);width:205px}
+  tr.hl td{background:#fff3ea;color:#c24a2b;font-weight:600}
+  .ckbox{width:21px;height:21px;accent-color:var(--orange-d);cursor:pointer;transform:scale(1.2)}
+  tr.done td{background:#f6f1ea;color:#c5b6a5;text-decoration:line-through}
+  tr.done td.t,tr.done td.v{color:#c5b6a5}
+  .mapbox{border-radius:0 0 18px 18px;overflow:hidden;box-shadow:0 8px 24px rgba(255,150,90,.12);margin-bottom:26px;background:#fff}
+  .mapbox .mhead{background:linear-gradient(120deg,#4fc0b8,#3aa6a0);color:#fff;padding:10px 20px;font-size:15px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .map{height:460px}
+  .mnote{font-size:12.5px;color:#a09078;padding:8px 18px;background:#fffaf3;line-height:1.7}
+  .layerbtn{margin-left:auto;background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.6);color:#fff;padding:4px 14px;border-radius:999px;font-size:12.5px;cursor:pointer}
+  .pin{position:absolute;transform:translate(-50%,-100%);width:34px;height:34px;color:#fff;display:flex;align-items:center;justify-content:center;
+       font-weight:800;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.35);font-size:14px;cursor:pointer;white-space:nowrap;transition:.15s}
+  .pin:hover{transform:translate(-50%,-100%) scale(1.18)}
+  .rlabel{transform:translate(-50%,-50%);background:#fff;border:1.5px solid var(--orange);color:#c96a3a;border-radius:999px;
+          padding:3px 10px;font-size:12px;font-weight:700;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+  .binfo{width:300px;font-size:13px;line-height:1.6;border-radius:14px;overflow:hidden}
+  .binfo img{width:100%;height:150px;object-fit:cover;display:block}
+  .binfo .body{padding:10px 14px 14px;background:#fff}
+  .binfo h4{color:var(--orange-d);font-size:16px;margin-bottom:4px}
+  .binfo .ru{color:#b5a898;font-size:12px;margin-bottom:6px}
+  .binfo .tm{color:var(--orange-d);font-weight:700;font-size:12.5px;margin-bottom:6px}
+  .binfo .desc{color:#6b5c4c;margin-bottom:8px}
+  .binfo .play{background:#fff5ea;border-radius:10px;padding:8px 10px}
+  .binfo .play b{color:#c96a3a;font-size:12.5px}
+  .binfo .play div{margin-top:4px;color:#7a6a56;font-size:12.5px}
+
+  /* ===== 童趣手账 ===== */
+  .journal{position:relative;margin:0 0 34px;padding:26px 24px 20px;
+    background:repeating-linear-gradient(0deg,#fffdf6 0 26px,#fdf6e3 26px 27px);
+    border:2px solid #e8d5b5;border-radius:6px 14px 8px 16px;
+    box-shadow:3px 5px 0 rgba(180,150,110,.25);transform:rotate(-.4deg);
+    font-family:'ZCOOL KuaiLe','PingFang SC',cursive;color:#6b543a;font-size:15.5px;line-height:27px}
+  .journal:nth-of-type(even){transform:rotate(.5deg)}
+  .journal:before{content:'';position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(-3deg);
+    width:110px;height:26px;background:rgba(255,209,150,.6);border-left:2px dashed rgba(255,255,255,.8);
+    border-right:2px dashed rgba(255,255,255,.8);box-shadow:0 2px 4px rgba(0,0,0,.08)}
+  .journal h3{font-size:20px;color:#d9641e;margin-bottom:6px;letter-spacing:2px}
+  .journal h3 .pen{float:right;font-size:13px;color:#b09478;font-weight:400}
+  .journal p{margin:0}
+  .journal .mood{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+  .journal .stamp{border:2px solid #e88a5c;color:#e88a5c;border-radius:50%;padding:2px 10px;
+    transform:rotate(-8deg);font-size:13px;opacity:.85}
+  .journal .hl{color:#c24a2b;background:linear-gradient(transparent 62%,#ffe0a8 62%)}
+  .journal .doodle{text-align:right;font-size:20px;letter-spacing:6px;margin-top:4px;opacity:.8}
+  .journal .tips{margin-top:8px;padding:8px 12px;border:2px dashed #f0b27a;border-radius:12px;
+    font-size:14px;color:#a06a3a;background:#fff8ec;transform:rotate(.6deg)}
+
+  h2.sec{font-size:19px;color:#c96a3a;margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+  h2.sec:before{content:'';width:8px;height:20px;background:var(--orange);border-radius:4px}
+  .src{font-size:12.5px;color:#a09280;background:#fffaf3;border-radius:14px;padding:10px 16px;margin-bottom:20px;line-height:1.8;word-break:break-all}
+  footer{text-align:center;font-size:13px;color:#c0a890;margin-top:36px}
+  #mascot{position:fixed;right:22px;bottom:26px;z-index:900;font-size:46px;cursor:pointer;user-select:none;
+    filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));animation:bob 3s ease-in-out infinite;transition:.2s}
+  #mascot:hover{transform:scale(1.15) rotate(-8deg)}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  #mtip{position:fixed;right:22px;bottom:86px;z-index:900;max-width:240px;background:#fff;border:2px solid #ffd0b0;
+    border-radius:16px 16px 4px 16px;padding:10px 14px;font-size:13px;color:#7a6a56;box-shadow:0 6px 20px rgba(232,97,60,.2);
+    display:none;line-height:1.65}
+  #toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%) translateY(80px);z-index:950;
+    background:#fff;border:2.5px solid #ffc090;border-radius:999px;padding:11px 26px;font-size:14.5px;font-weight:700;
+    color:#c96a3a;box-shadow:0 8px 24px rgba(232,97,60,.25);opacity:0;transition:.35s;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+  #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+  .cf{position:fixed;top:-30px;z-index:940;pointer-events:none;animation:fall2 linear forwards}
+  @keyframes fall2{to{transform:translateY(105vh) rotate(720deg)}}
+</style>
+</head>
+<body class="lock">
+
+<!-- ==================== 开场动画 ==================== -->
+<div id="intro">
+  <h1>我们一起去贝加尔湖吧</h1>
+  <div class="sub">LET'S GO TO LAKE BAIKAL</div>
+  <div class="meta">西伯利亚 · 蓝冰 · 2027.02.03 — 02.09</div>
+  <div class="enter">点击任意位置开启旅程</div>
+</div>
+<div id="isnow"></div>
+
+<div id="snow"></div>
+
+<header>
+  <h1>🦭❄️ 贝加尔湖七天六晚攻略 ❄️🦭</h1>
+  <div class="sub">2027.02.03 - 02.09 ｜ 上海直飞 ｜ 打卡集徽章版</div>
+</header>
+
+<div class="countdown">
+  <div class="cd-title">✈️ 距离起飞还有</div>
+  <div class="cd-nums">
+    <div class="cd-cell"><b id="cdD">--</b><i>天</i></div>
+    <div class="cd-cell"><b id="cdH">--</b><i>时</i></div>
+    <div class="cd-cell"><b id="cdM">--</b><i>分</i></div>
+    <div class="cd-cell"><b id="cdS">--</b><i>秒</i></div>
+  </div>
+  <div class="cd-tip" id="cdTip">💡 点我换一句行前提醒</div>
+</div>
+
+<div class="globalbar">
+  <span class="glevel" id="gLevel">🐣 行前萌新</span>
+  <div class="gbar"><div class="gfill" id="gFill"></div></div>
+  <span id="gPct" style="font-size:13px;font-weight:700;color:#b09478">0%</span>
+  <div class="badges" id="badges"></div>
+</div>
+
+<nav>
+  <button class="on" data-d="d1">D1 落地</button>
+  <button data-d="d2">D2 上岛</button>
+  <button data-d="d3">D3 北线</button>
+  <button data-d="d4">D4 南线</button>
+  <button data-d="d5">D5 →利镇</button>
+  <button data-d="d6">D6 冰潜+射击</button>
+  <button data-d="d7">D7 返程</button>
+  <button data-d="all">🗺️ 全程总图</button>
+</nav>
+
+<main>
+
+<!-- ============ D1 ============ -->
+<div class="day show" id="d1">
+  <div class="dayhead"><span class="badge">D1</span><h2>2月3日（周三）· 落地伊市</h2>
+    <div class="progress"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0/5</span></div></div>
+  <div class="warnbar">🛬 海关约1小时；先破开5000卢布大钞</div>
+  <table>
+    <tr><th class="ck">✔</th><th>行程</th><th>时间</th><th>交通方式</th><th>备注</th></tr>
+    <tr data-id="d1-1"><td class="ck"><input type="checkbox" class="ckbox"></td><td>落地伊尔库茨克机场</td><td class="t">白天</td><td class="v">✈️ 飞机（上海直飞约4.5h）</td><td>过关取行李，海关约1小时</td></tr>
+    <tr data-id="d1-2"><td class="ck"><input type="checkbox" class="ckbox"></td><td>机场 → 安加拉酒店</td><td class="t">落地后</td><td class="v">🚕 打车</td><td>约20-30分钟（¥30-50），顺路破零钱</td></tr>
+    <tr data-id="d1-3"><td class="ck"><input type="checkbox" class="ckbox"></td><td>基洛夫广场 → 安加拉河边散步</td><td class="t">15:00-17:00</td><td class="v">🚶 步行</td><td>广场在酒店对面</td></tr>
+    <tr data-id="d1-4"><td class="ck"><input type="checkbox" class="ckbox"></td><td>胜利之门、长明火</td><td class="t">17:00-18:30</td><td class="v">🚶 步行</td><td>景点间均10分钟内</td></tr>
+    <tr data-id="d1-5"><td class="ck"><input type="checkbox" class="ckbox"></td><td>酒店休整，倒时差</td><td class="t">晚上</td><td class="v">—</td><td>与上海无时差，早休息</td></tr>
+  </table>
+  <div class="mapbox"><div class="mhead">🗺️ D1 路线：机场 → 市区步行圈<button class="layerbtn" onclick="toggleSat('d1')">🛰️ 卫星图</button></div><div class="map" id="map1"></div>
+  <div class="mnote">点击图钉弹出景点卡片；点击地图空白处关闭。</div></div>
+
+  <div class="journal">
+    <h3>📔 D1 手账 · 落地第一天 <span class="pen">✏️ 写于安加拉酒店</span></h3>
+    <p>飞机落地的那一刻，窗外的云像<b class="hl">棉花糖铺在雪地上</b>！海关排了一个小时的队，
+    挤出来的时候腿都麻啦～第一件大事：把那张<b class="hl">5000卢布的大钞</b>换成零钱，
+    不然连出租车都坐不了呜呜。下午沿着<span class="hl">安加拉河</span>散步，
+    河面居然不结冰，冒着白白的蒸汽，像一锅煮开的汤🍲 长明火前站了一会儿，火苗在风里晃呀晃。</p>
+    <div class="mood"><span class="stamp">心情：兴奋.max</span><span class="stamp">天气：❄️小雪</span><span class="stamp">腿：🦵酸的</span></div>
+    <div class="doodle">🏠➡️⛪➡️🌊➡️🔥➡️🛏️</div>
+    <div class="tips">🖍️ 今日涂鸦笔记：与上海<b>没有时差</b>！但别熬夜，明天要坐5小时小巴上岛～</div>
+  </div>
+</div>
+
+<!-- ============ D2 ============ -->
+<div class="day" id="d2">
+  <div class="dayhead"><span class="badge">D2</span><h2>2月4日（周四）· 上岛</h2>
+    <div class="progress"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0/5</span></div></div>
+  <div class="warnbar">⛴️ 带面包喂海鸥；小巴2000卢布/人+行李费</div>
+  <table>
+    <tr><th class="ck">✔</th><th>行程</th><th>时间</th><th>交通方式</th><th>备注</th></tr>
+    <tr data-id="d2-1"><td class="ck"><input type="checkbox" class="ckbox"></td><td>酒店门口接人出发</td><td class="t">08:30-09:00</td><td class="v">🚐 20座小巴</td><td>民宿老板代订，2000卢布/人</td></tr>
+    <tr data-id="d2-2"><td class="ck"><input type="checkbox" class="ckbox"></td><td>途中服务区上厕所+午饭</td><td class="t">11:30左右</td><td class="v">🚐 途中停靠</td><td>约30-40分钟</td></tr>
+    <tr data-id="d2-3"><td class="ck"><input type="checkbox" class="ckbox"></td><td>码头轮渡上岛，船上喂海鸥</td><td class="t">14:30-15:00</td><td class="v">⛴️ 轮渡</td><td>渡河15-20分钟</td></tr>
+    <tr data-id="d2-4"><td class="ck"><input type="checkbox" class="ckbox"></td><td>送到白熊旅馆办理入住</td><td class="t">15:00-16:00</td><td class="v">🚐 小巴</td><td>上岛后约30-40分钟车程</td></tr>
+    <tr class="hl" data-id="d2-5"><td class="ck"><input type="checkbox" class="ckbox"></td><td>步行萨满岩看日落</td><td class="t">16:30-18:00</td><td class="v">🚶 步行</td><td>单程10-15分钟</td></tr>
+  </table>
+  <div class="mapbox"><div class="mhead">🗺️ D2 路线：伊市 → 渡口 → 胡日尔村 → 萨满岩（约260km）<button class="layerbtn" onclick="toggleSat('d2')">🛰️ 卫星图</button></div><div class="map" id="map2"></div>
+  <div class="mnote">全程陆路约5-6小时，分两段小巴+一段轮渡。</div></div>
+
+  <div class="journal">
+    <h3>📔 D2 手账 · 终于上岛啦！ <span class="pen">✏️ 写于白熊旅馆</span></h3>
+    <p>早上8点半小巴来接，一路晃晃悠悠<b class="hl">260公里</b>，我在服务区买了热狗和咖啡。
+    最开心的是轮渡上<span class="hl">喂海鸥</span>！面包掰成小块往天上一抛，海鸥就俯冲下来接住，
+    翅膀尖几乎擦到手指🕊️ 到了胡日尔村，木屋、篱笆、雪堆……像走进了童话书。
+    傍晚走到<span class="hl">萨满岩</span>看日落，整块天空烧成了橘子汽水的颜色🍊</p>
+    <div class="mood"><span class="stamp">心情：哇哦！</span><span class="stamp">海鸥：🕊️×100</span><span class="stamp">日落：含金量超高</span></div>
+    <div class="doodle">🚐〰️〰️⛴️〰️🏠➡️⛩️🌅</div>
+    <div class="tips">🖍️ 今日涂鸦笔记：明早北线出发！<b>晕车药今晚就吃</b>，听说"小钢炮"颠到飞起🚙</div>
+  </div>
+</div>
+
+<!-- ============ D3 ============ -->
+<div class="day" id="d3">
+  <div class="dayhead"><span class="badge">D3</span><h2>2月5日（周五）· 北线一日游（蓝冰日）</h2>
+    <div class="progress"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0/5</span></div></div>
+  <div class="warnbar">🚙 非常颠簸，晕车药必备；提前一天跟旅馆老板订车</div>
+  <table>
+    <tr><th class="ck">✔</th><th>行程</th><th>时间</th><th>交通方式</th><th>备注</th></tr>
+    <tr data-id="d3-1"><td class="ck"><input type="checkbox" class="ckbox"></td><td>车到旅馆门口接人</td><td class="t">09:00左右</td><td class="v">🚙 "小钢炮"越野车</td><td>提前一天订车</td></tr>
+    <tr class="hl" data-id="d3-2"><td class="ck"><input type="checkbox" class="ckbox"></td><td>蓝冰玛尼堆 → 哈伯伊角 → 冰洞冰柱</td><td class="t">09:30-14:00</td><td class="v">🚙 冰面行车</td><td>运气好可见淡水海豹</td></tr>
+    <tr data-id="d3-3"><td class="ck"><input type="checkbox" class="ckbox"></td><td>冰面奥木尔鱼汤午餐</td><td class="t">13:00-14:00</td><td class="v">🍲 冰上午餐</td><td>约1小时</td></tr>
+    <tr data-id="d3-4"><td class="ck"><input type="checkbox" class="ckbox"></td><td>返程顺路看萨满岩日落</td><td class="t">14:00-17:00</td><td class="v">🚙</td><td>冰洞内冰柱勿久留</td></tr>
+    <tr data-id="d3-5"><td class="ck"><input type="checkbox" class="ckbox"></td><td>回到胡日尔村</td><td class="t">17:30左右</td><td class="v">🚙</td><td>全天约8-10小时</td></tr>
+  </table>
+  <div class="mapbox"><div class="mhead">🗺️ D3 路线：胡日尔 → 西海岸北行 → 哈伯伊角 → 返回<button class="layerbtn" onclick="toggleSat('d3')">🛰️ 卫星图</button></div><div class="map" id="map3"></div>
+  <div class="mnote">💡 建议切卫星图看冰面！停靠点由司机按当日冰况决定。</div></div>
+
+  <div class="journal">
+    <h3>📔 D3 手账 · 蓝冰！蓝冰！ <span class="pen">✏️ 写于颠簸的车上</span></h3>
+    <p>今天是在<b class="hl">贝加尔湖的冰面上</b>开了一整天车！车窗外的冰是那种
+    <span class="hl">不真实的蓝</span>，像整瓶墨水泼在了地上又冻住了。玛尼堆静悄悄立在蓝冰上，
+    <span class="hl">冰洞里的冰柱</span>一根根垂下来，像巨大的水晶帘子💎 司机大叔突然喊"нерпа!"（海豹），
+    我们蹑手蹑脚凑过去——真的看到一只圆滚滚的<span class="hl">贝加尔海豹</span>趴在冰上晒太阳！
+    中午在冰面上喝奥木尔鱼汤，烫烫的一口下去，从喉咙暖到脚趾头🍲</p>
+    <div class="mood"><span class="stamp">心情：💎了</span><span class="stamp">屁股：颠成两半</span><span class="stamp">海豹：✅偶遇</span></div>
+    <div class="doodle">🧊🧊🧊➡️🐟🍲➡️🦭!!➡️⛩️🌇</div>
+    <div class="tips">🖍️ 今日涂鸦笔记：手机冻到关机2次，<b>暖宝宝贴背面</b>才是正确用法！</div>
+  </div>
+</div>
+
+<!-- ============ D4 ============ -->
+<div class="day" id="d4">
+  <div class="dayhead"><span class="badge">D4</span><h2>2月6日（周六）· 南线一日游（气泡冰日）</h2>
+    <div class="progress"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0/5</span></div></div>
+  <div class="warnbar">📷 躺冰面听冰裂声；游客比北线少</div>
+  <table>
+    <tr><th class="ck">✔</th><th>行程</th><th>时间</th><th>交通方式</th><th>备注</th></tr>
+    <tr data-id="d4-1"><td class="ck"><input type="checkbox" class="ckbox"></td><td>车到旅馆门口接</td><td class="t">10:00左右</td><td class="v">🚙 "小钢炮"</td><td>南线出发较晚</td></tr>
+    <tr class="hl" data-id="d4-2"><td class="ck"><input type="checkbox" class="ckbox"></td><td>雪原 → 气泡冰圣地 → 冰裂纹观景</td><td class="t">10:30-14:00</td><td class="v">🚙</td><td>甲烷气泡封冻在冰层下</td></tr>
+    <tr data-id="d4-3"><td class="ck"><input type="checkbox" class="ckbox"></td><td>冰面鱼汤午餐</td><td class="t">13:00左右</td><td class="v">🍲</td><td>约1小时</td></tr>
+    <tr data-id="d4-4"><td class="ck"><input type="checkbox" class="ckbox"></td><td>奥戈伊岛佛塔 → 登高俯瞰全村</td><td class="t">14:00-16:00</td><td class="v">🚙+🚶 短途爬坡</td><td>俯瞰炊烟大片</td></tr>
+    <tr data-id="d4-5"><td class="ck"><input type="checkbox" class="ckbox"></td><td>回村，超市采购+咖啡馆</td><td class="t">17:00左右</td><td class="v">🚶</td><td>全天约6-8小时</td></tr>
+  </table>
+  <div class="mapbox"><div class="mhead">🗺️ D4 路线：胡日尔 → 东南海岸 → 奥戈伊岛佛塔 → 返回<button class="layerbtn" onclick="toggleSat('d4')">🛰️ 卫星图</button></div><div class="map" id="map4"></div>
+  <div class="mnote">气泡冰最佳区域随冰况变化；奥戈伊岛佛塔为固定地标。</div></div>
+
+  <div class="journal">
+    <h3>📔 D4 手账 · 躺在冰上听歌 <span class="pen">✏️ 写于胡日尔村咖啡馆</span></h3>
+    <p>南线的游客少好多，整片冰面好像只有我们。趴在<span class="hl">气泡冰</span>上面往下看——
+    一串一串的<b class="hl">甲烷气泡</b>冻在冰层里，像谁把银河冻进了玻璃珠✨
+    把耳朵贴在冰面上，能听到<span class="hl">冰层深处"嘭——嗡——"的裂响</span>，
+    像大地在打呼噜，又有点像鲸鱼唱歌🐋 下午爬上<span class="hl">奥戈伊岛</span>看白色佛塔，
+    站在高处俯瞰全村，烟囱的炊烟一条一条竖起来，太出片了📷</p>
+    <div class="mood"><span class="stamp">心情：安静又震撼</span><span class="stamp">冰的歌：🎵听到了</span><span class="stamp">快门：拍了800张</span></div>
+    <div class="doodle">💎💎➡️👂🧊🎵➡️🕊️⛰️➡️☕🍪</div>
+    <div class="tips">🖍️ 今日涂鸦笔记：躺冰面前先垫个垫子！不然起来时后背透心凉🥶</div>
+  </div>
+</div>
+
+<!-- ============ D5 ============ -->
+<div class="day" id="d5">
+  <div class="dayhead"><span class="badge">D5</span><h2>2月7日（周日）· 下岛 → 利斯特维扬卡</h2>
+    <div class="progress"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0/5</span></div></div>
+  <div class="warnbar">⚠️ 晚上确认冰潜集合时间；备好现金卢布（利镇ATM少）</div>
+  <table>
+    <tr><th class="ck">✔</th><th>行程</th><th>时间</th><th>交通方式</th><th>备注</th></tr>
+    <tr data-id="d5-1"><td class="ck"><input type="checkbox" class="ckbox"></td><td>旅馆门口上车，与上岛流程相反</td><td class="t">09:00-10:00</td><td class="v">🚐 小巴</td><td>同一家，提前确认返程</td></tr>
+    <tr data-id="d5-2"><td class="ck"><input type="checkbox" class="ckbox"></td><td>码头轮渡过河</td><td class="t">10:30-11:00</td><td class="v">⛴️ 轮渡</td><td>15-20分钟</td></tr>
+    <tr data-id="d5-3"><td class="ck"><input type="checkbox" class="ckbox"></td><td>回到伊尔库茨克市区</td><td class="t">15:00-15:30</td><td class="v">🚐 小巴</td><td>全程约5-6小时</td></tr>
+    <tr data-id="d5-4"><td class="ck"><input type="checkbox" class="ckbox"></td><td>市区 → 利斯特维扬卡</td><td class="t">15:30-16:30</td><td class="v">🚌 巴士110卢布 / 🚕 打车¥80-120</td><td>70公里，约1-1.5小时</td></tr>
+    <tr class="hl" data-id="d5-5"><td class="ck"><input type="checkbox" class="ckbox"></td><td>入住利镇湖景民宿，湖边日落</td><td class="t">17:00左右</td><td class="v">🚶</td><td>为明天冰潜省1500卢布/人接送费</td></tr>
+  </table>
+  <div class="mapbox"><div class="mhead">🗺️ D5 路线：胡日尔 → 渡口 → 伊市 → 利斯特维扬卡（约330km）<button class="layerbtn" onclick="toggleSat('d5')">🛰️ 卫星图</button></div><div class="map" id="map5"></div>
+  <div class="mnote">全程最长转场日；利镇民宿建议订主路湖侧。</div></div>
+
+  <div class="journal">
+    <h3>📔 D5 手账 · 最长的搬家日 <span class="pen">✏️ 写于利镇湖景民宿</span></h3>
+    <p>今天干了件大事：<b class="hl">横穿330公里搬家</b>！和上岛时反着来一遍——
+    小巴、轮渡、再小巴，摇摇晃晃回到伊市，又换乘去<span class="hl">利斯特维扬卡</span>。
+    车窗外贝加尔湖一直陪着我们，湖面宽得像海。傍晚入住湖景民宿，推开窗就是
+    <span class="hl">整面湖的日落</span>，金色碎光在水面上跳 sparkle✨ 民宿阿姨煮了红茶，
+    暖呼呼的。今晚早点睡，明天要去<b class="hl">冰下潜水</b>！！</p>
+    <div class="mood"><span class="stamp">心情：期待到睡不着</span><span class="stamp">坐车时长：⏰6小时</span><span class="stamp">湖景房：含金量max</span></div>
+    <div class="doodle">🚐〰️⛴️〰️🚐〰️🚌〰️🏠🌅✨</div>
+    <div class="tips">🖍️ 今日涂鸦笔记：<b>现金要备够</b>！利镇ATM很少，冰潜只收现金💸</div>
+  </div>
+</div>
+
+<!-- ============ D6 ============ -->
+<div class="day" id="d6">
+  <div class="dayhead"><span class="badge">D6</span><h2>2月8日（周一）· 冰潜 + 射击双体验日 🔥</h2>
+    <div class="progress"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0/7</span></div></div>
+  <div class="warnbar">📅 双预约：冰潜提前1个月邮件；爱国者D5晚小红书私信</div>
+  <table>
+    <tr><th class="ck">✔</th><th>行程</th><th>时间</th><th>交通方式</th><th>备注</th></tr>
+    <tr data-id="d6-1"><td class="ck"><input type="checkbox" class="ckbox"></td><td>民宿 → 潜店集合</td><td class="t">08:30-09:00</td><td class="v">🚶 或潜店接送300卢布/人</td><td>以潜店邮件通知为准</td></tr>
+    <tr class="hl" data-id="d6-2"><td class="ck"><input type="checkbox" class="ckbox"></td><td>冰潜：理论→干衣→开冰洞→下潜→伏特加仪式</td><td class="t">09:00-12:00</td><td class="v">🤿 教练1对1</td><td>6500-7000卢布，只收现金</td></tr>
+    <tr data-id="d6-3"><td class="ck"><input type="checkbox" class="ckbox"></td><td>潜店 → 返程伊市</td><td class="t">12:00-13:30</td><td class="v">🚕/🚌</td><td>约1-1.5小时</td></tr>
+    <tr data-id="d6-4"><td class="ck"><input type="checkbox" class="ckbox"></td><td>伊市快速午餐</td><td class="t">14:00左右</td><td class="v">🍽️</td><td>约40分钟</td></tr>
+    <tr class="hl" data-id="d6-5"><td class="ck"><input type="checkbox" class="ckbox"></td><td>爱国者射击 + 军事博物馆</td><td class="t">15:00-16:30</td><td class="v">🚕 约20分钟</td><td>ул.Ширямова 38/3，支持支付宝</td></tr>
+    <tr data-id="d6-6"><td class="ck"><input type="checkbox" class="ckbox"></td><td>中央市场买特产</td><td class="t">17:00-19:00</td><td class="v">🚕/🚶</td><td>松果蜂蜜/巧克力/鱼干</td></tr>
+    <tr data-id="d6-7"><td class="ck"><input type="checkbox" class="ckbox"></td><td>回雅科夫列夫酒店</td><td class="t">晚上</td><td class="v">🚶（130步行街旁）</td><td>⚠️ 楼下电车噪音</td></tr>
+  </table>
+  <div class="mapbox"><div class="mhead">🗺️ D6 路线：利镇 → 伊市 → 射击场 → 中央市场 → 酒店<button class="layerbtn" onclick="toggleSat('d6')">🛰️ 卫星图</button></div><div class="map" id="map6"></div>
+  <div class="mnote">爱国者射击场坐标为估算（Shiryamova街38/3），到店以导航为准。</div></div>
+
+  <div class="journal">
+    <h3>📔 D6 手账 · 冰潜&射击 双倍快乐 <span class="pen">✏️ 手在抖着写</span></h3>
+    <p>人生第一次<b class="hl">冰潜</b>达成！！教练帮我套上干衣，在冰面上凿开一个洞，
+    探照灯照下去的那一刻——<span class="hl">冰的底部是发着蓝光的</span>，气泡在我身边往上跑，
+    安静得只能听见自己的呼吸 bubbles…🫧 上岸后一口<b class="hl">伏特加</b>下肚，从头顶暖到脚。
+    下午更疯：去<span class="hl">爱国者俱乐部</span>实弹射击，AK的后坐力比想象中大好多，
+    教练夸我打得准（谦虚但开心）🎯 晚上中央市场扫货：松果蜂蜜、巧克力、鱼干装了满满一袋！</p>
+    <div class="mood"><span class="stamp">心情：🔥🔥🔥</span><span class="stamp">人生清单：+2</span><span class="stamp">钱包：瘦了</span></div>
+    <div class="doodle">🤿🧊💙➡️🥃➡️🔫🎯➡️🛒🛍️</div>
+    <div class="tips">🖍️ 今日涂鸦笔记：射击场<b>支持支付宝</b>！让教练拍水下视频，超值！</div>
+  </div>
+</div>
+
+<!-- ============ D7 ============ -->
+<div class="day" id="d7">
+  <div class="dayhead"><span class="badge">D7</span><h2>2月9日（周二）· 返程</h2>
+    <div class="progress"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0/2</span></div></div>
+  <table>
+    <tr><th class="ck">✔</th><th>行程</th><th>时间</th><th>交通方式</th><th>备注</th></tr>
+    <tr data-id="d7-1"><td class="ck"><input type="checkbox" class="ckbox"></td><td>睡到自然醒，130步行街补漏</td><td class="t">上午</td><td class="v">🚶 步行</td><td>金苹果商场/兰州拉面</td></tr>
+    <tr data-id="d7-2"><td class="ck"><input type="checkbox" class="ckbox"></td><td>酒店 → 机场</td><td class="t">出发前2.5小时</td><td class="v">🚕 约30分钟（¥40-60）</td><td>🎯 爱国者在机场附近，可顺路补一局</td></tr>
+  </table>
+  <div class="mapbox"><div class="mhead">🗺️ D7 路线：130步行街 → 酒店 → 机场<button class="layerbtn" onclick="toggleSat('d7')">🛰️ 卫星图</button></div><div class="map" id="map7"></div>
+  <div class="mnote">雅科夫列夫酒店与130步行街隔一条马路，步行即达。</div></div>
+
+  <div class="journal">
+    <h3>📔 D7 手账 · 说再见的一天 <span class="pen">✏️ 写于机场候机厅</span></h3>
+    <p>睡到自然醒，在<span class="hl">130步行街</span>吃最后一碗兰州拉面（没想到西伯利亚的拉面这么正宗🍜）
+    又去金苹果商场补了点巧克力。拖着行李走向机场时回头看了一眼这座城市——
+    <b class="hl">一周前刚落地时的兴奋</b>好像还在昨天，但口袋里的零钱、相册里的蓝冰、
+    和鼻尖冻红的记忆都装满了。贝加尔湖，<span class="hl">我还会回来的</span>，
+    下次夏天来，看看你不结冰的样子🌊✈️</p>
+    <div class="mood"><span class="stamp">心情：舍不得</span><span class="stamp">行李：超重3kg</span><span class="stamp">遗憾：0</span></div>
+    <div class="doodle">🍜➡️🛍️➡️✈️➡️🏠 …未完待续</div>
+    <div class="tips">🖍️ 今日涂鸦笔记：机场安检前把暖宝宝扔掉哦，不然会被拦下～</div>
+  </div>
+</div>
+
+<!-- ============ 全程总图 ============ -->
+<div class="day" id="all">
+  <div class="dayhead"><span class="badge">🗺️</span><h2>全程总览 · 7天所有点位</h2></div>
+  <div class="mapbox"><div class="mhead" style="background:linear-gradient(120deg,#ff9a62,#ff8a4c)">🌍 航线 + 陆路 + 冰面路线一张图<button class="layerbtn" onclick="toggleSat('all')">🛰️ 卫星图</button></div><div class="map" id="mapAll" style="height:580px"></div>
+  <div class="mnote">🟡 弧线=上海直飞航线 ｜ 各色虚线=陆路/冰面路线 ｜ 点击图钉看详情卡片。</div></div>
+  <h2 class="sec">💰 全程人均预算参考</h2>
+  <table>
+    <tr><th class="ck">✔</th><th>项目</th><th>明细</th><th>估算（人民币）</th></tr>
+    <tr data-id="b-1"><td class="ck"><input type="checkbox" class="ckbox"></td><td>机票往返</td><td>S7上海直飞</td><td>约2500-4500</td></tr>
+    <tr data-id="b-2"><td class="ck"><input type="checkbox" class="ckbox"></td><td>住宿6晚</td><td>安加拉+白熊×3+利镇民宿+雅科夫列夫</td><td>约1500-2500</td></tr>
+    <tr data-id="b-3"><td class="ck"><input type="checkbox" class="ckbox"></td><td>上岛往返小巴</td><td>2000卢布×2+行李费</td><td>约400-500</td></tr>
+    <tr data-id="b-4"><td class="ck"><input type="checkbox" class="ckbox"></td><td>南北线两日</td><td>越野车</td><td>约800-1200</td></tr>
+    <tr data-id="b-5"><td class="ck"><input type="checkbox" class="ckbox"></td><td>冰潜</td><td>DSD 6500-7000卢布</td><td>约700</td></tr>
+    <tr data-id="b-6"><td class="ck"><input type="checkbox" class="ckbox"></td><td>射击</td><td>爱国者套餐</td><td>约500-900</td></tr>
+    <tr data-id="b-7"><td class="ck"><input type="checkbox" class="ckbox"></td><td>餐饮+市内交通</td><td>7天</td><td>约1000-1500</td></tr>
+  </table>
+  <h2 class="sec">✅ 预约待办（也可以勾！）</h2>
+  <table>
+    <tr><th class="ck">✔</th><th>时间</th><th>事项</th></tr>
+    <tr data-id="t-1"><td class="ck"><input type="checkbox" class="ckbox"></td><td class="t">现在</td><td>冰潜邮件预约 frog-69@mail.ru（提前1个月，位置少）</td></tr>
+    <tr data-id="t-2"><td class="ck"><input type="checkbox" class="ckbox"></td><td class="t">现在</td><td>订机票 + 利镇湖景民宿</td></tr>
+    <tr data-id="t-3"><td class="ck"><input type="checkbox" class="ckbox"></td><td class="t">D2</td><td>跟白熊旅馆订D3/D4越野车 + D5返程小巴</td></tr>
+    <tr data-id="t-4"><td class="ck"><input type="checkbox" class="ckbox"></td><td class="t">D5晚</td><td>小红书私信约D6爱国者场次；确认冰潜集合时间；取现金</td></tr>
+  </table>
+  <h2 class="sec">📚 依据来源</h2>
+  <p class="src">
+    ① 你的行程文本《贝加尔湖攻略.xlsx》（D1-D7主体）<br>
+    ② 小红书：爱国者基地实弹射击 xiaohongshu.com/explore/6a9a1634000000001000014d<br>
+    ③ 小红书：K9基地（对比参考） xiaohongshu.com/explore/6999bedd000000001a02a0ce<br>
+    ④ 穷游网冰潜攻略 bbs.qyer.com/thread-2941867（三维潜水中心/价格/预约）<br>
+    ⑤ 公开攻略核实（travel-alien / howtotrip / iweju / Wikivoyage / 酒店官网坐标）<br>
+    ⚠️ 岛上冰面停靠点及射击场坐标为估算；开场图片来自维基百科实景图库。
+  </p>
+
+  <div class="journal" style="max-width:760px;margin:0 auto 30px">
+    <h3>📔 尾页 · 七天涂鸦总结 <span class="pen">✏️ 献给贝加尔湖</span></h3>
+    <p>7天里，我们<b class="hl">横穿了330公里雪原</b>、在冰面上开了两天车、
+    喂了100只海鸥、偶遇1只海豹、潜入冰下30分钟、开了人生第一枪、
+    喝了1杯庆功伏特加、拍了<b class="hl">3000多张照片</b>。
+    最难忘的瞬间：耳朵贴着冰面听见大地唱歌的那一刻🌊🦭</p>
+    <div class="doodle">🛬⛴️🧊💎🏔️🔥✈️ = ❤️</div>
+  </div>
+</div>
+
+</main>
+<footer>🦭 贝加尔湖七天六晚 · 2027.02.03 - 02.09 ｜ 点右下角海豹有惊喜</footer>
+
+<div id="mascot">🦭</div>
+<div id="mtip"></div>
+<div id="toast"></div>
+
+<script>
+/* ===== 兼容高德1.4 ===== */
+if(!AMap.Map.prototype.add){
+  AMap.Map.prototype.add=function(o){Array.isArray(o)?o.forEach(x=>this.addOverlay(x)):this.addOverlay(o)};
+  AMap.Map.prototype.remove=function(o){Array.isArray(o)?o.forEach(x=>this.removeOverlay(x)):this.removeOverlay(o)};
+}
+
+/* ===== 飘雪 ===== */
+function makeSnow(container,n,colors){
+  const flake=['❄','❅','❆','•','✦'];
+  for(let i=0;i<n;i++){
+    const s=document.createElement('span');
+    s.textContent=flake[Math.floor(Math.random()*flake.length)];
+    s.style.left=Math.random()*100+'vw';
+    s.style.fontSize=(8+Math.random()*16)+'px';
+    s.style.color=colors[Math.floor(Math.random()*colors.length)];
+    s.style.animationDuration=(6+Math.random()*10)+'s';
+    s.style.animationDelay=(-Math.random()*15)+'s';
+    container.appendChild(s);
+  }
+}
+makeSnow(document.getElementById('isnow'),50,['#dff0ff','#ffffff','#bfe3f5']);
+makeSnow(document.getElementById('snow'),36,['#bfe3f5','#ffffff']);
+
+/* ===== 开场动画（实景电影版） ===== */
+const intro=document.getElementById('intro');
+let entered=false;
+const CUSTOM_PHOTOS=[]; /* 想用自己的照片就填：['url1','url2'] */
+const WIKI_PAGES=['Lake_Baikal','Olkhon_Island','Pusa_sibirica','Olkhon_(village)'];
+async function loadSlides(){
+  let urls=[...CUSTOM_PHOTOS];
+  if(!urls.length){
+    const jobs=WIKI_PAGES.map(p=>
+      fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(p))
+        .then(r=>r.json()).then(d=>{
+          let s=(d.thumbnail&&d.thumbnail.source)||'';
+          s=s.replace(/\/\d+px-/,'/1280px-');
+          return s||((d.originalimage&&d.originalimage.source)||'');
+        }).catch(()=>''));
+    urls=(await Promise.all(jobs)).filter(Boolean);
+  }
+  if(urls.length){
+    urls.forEach(u=>{
+      const d=document.createElement('div');
+      d.className='slide';d.style.backgroundImage=`url("${u}")`;
+      intro.prepend(d);
+    });
+    const veil=document.createElement('div');veil.className='veil';
+    intro.insertBefore(veil,intro.querySelector('h1'));
+    const slides=intro.querySelectorAll('.slide');
+    let cur=0;slides[0].classList.add('on');
+    setInterval(()=>{
+      if(entered)return;
+      slides[cur].classList.remove('on');
+      cur=(cur+1)%slides.length;
+      slides[cur].classList.add('on');
+    },5200);
+  }else{
+    intro.style.background='radial-gradient(ellipse at 50% 35%,#1d3a52 0%,#060b12 75%)';
+  }
+}
+loadSlides();
+function enterSite(){
+  if(entered)return;entered=true;
+  intro.classList.add('out');
+  document.body.classList.remove('lock');
+  setTimeout(()=>intro.remove(),1200);
+  setTimeout(()=>{confetti(26);},900);
+}
+intro.addEventListener('click',enterSite);
+document.addEventListener('keydown',function h(e){if(!entered){enterSite();}document.removeEventListener('keydown',h);});
+
+/* ===== 倒计时 ===== */
+const TARGET=new Date('2027-02-03T03:20:00+08:00');
+function tick(){
+  let diff=TARGET-Date.now();
+  if(diff<=0){diff=0;document.querySelector('.cd-title').textContent='🎉 旅程已开始，一路平安！';}
+  const d=Math.floor(diff/864e5), h=Math.floor(diff/36e5)%24,
+        m=Math.floor(diff/6e4)%60, s=Math.floor(diff/1e3)%60;
+  const pad=n=>String(n).padStart(2,'0');
+  cdD.textContent=pad(d);cdH.textContent=pad(h);cdM.textContent=pad(m);cdS.textContent=pad(s);
+}
+tick();setInterval(tick,1000);
+
+const TIPS=[
+ '🧊 现在就发邮件约冰潜：frog-69@mail.ru，位置超少！',
+ '💳 俄罗斯很多地方刷不了国内卡，现金卢布要备够～',
+ '📱 装好 Yandex Maps + Yandex Go（打车），落地就靠它们',
+ '🔌 插头是欧标圆孔，转换头别忘了带！',
+ '🧣 湖边风大，防风手套比厚手套更重要',
+ '💊 晕车药一定带！北线小钢炮不是开玩笑的',
+ '📷 手机在-30℃掉电飞快，暖宝宝贴手机背面续命',
+ '🎫 电子签证提前至少4个工作日申请',
+ '🍞 上岛渡轮带袋面包，海鸥会追着船飞～',
+ '🔥 射击场D5晚小红书私信预约，支持支付宝',
+ '🦭 运气好能在哈伯伊角看到贝加尔海豹！',
+ '🍲 奥木尔鱼熏的最好吃，中央市场买最便宜'
+];
+cdTip.onclick=function(){this.textContent=TIPS[Math.floor(Math.random()*TIPS.length)];};
+
+/* ===== Toast / 彩带 / 吉祥物 ===== */
+let toastTimer;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
+function confetti(n=45){
+  const emo=['🎉','🎊','❄️','🧊','⭐','✨','🦭'];
+  for(let i=0;i<n;i++){
+    const e=document.createElement('div');
+    e.className='cf';e.textContent=emo[Math.floor(Math.random()*emo.length)];
+    e.style.left=Math.random()*100+'vw';
+    e.style.fontSize=(14+Math.random()*16)+'px';
+    e.style.animationDuration=(2+Math.random()*2.5)+'s';
+    e.style.animationDelay=(Math.random()*.6)+'s';
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),5000);
+  }
+}
+const MASCOT_TIPS=[
+ '嗷呜～我是贝加尔海豹，全世界只住这个湖哦🦭',
+ '点每天的表格打勾，集齐7个徽章有惊喜！',
+ '看蓝冰记得切右上角卫星图，超清晰的❄️',
+ '北线的鱼汤要趁烫喝，凉了就腥啦',
+ '萨满岩的日落，提前半小时去占机位！',
+ '冰潜上岸那杯伏特加，一口闷才够暖～',
+ '我能在冰下潜300米哦，你潜40分钟就很棒啦',
+ '每天表格下面还有手账，记得翻翻看📔',
+ '出发前把这份页面打印一份，没网也能看！'
+];
+const masc=document.getElementById('mascot'),mtip=document.getElementById('mtip');
+masc.onclick=()=>{
+  mtip.textContent=MASCOT_TIPS[Math.floor(Math.random()*MASCOT_TIPS.length)];
+  mtip.style.display='block';
+  clearTimeout(masc._t);
+  masc._t=setTimeout(()=>mtip.style.display='none',4500);
+};
+
+/* ===== 勾选打卡 + 徽章 + 等级 ===== */
+const STORE='baikal2027_checklist',BSTORE='baikal2027_badges';
+let saved={};try{saved=JSON.parse(localStorage.getItem(STORE)||'{}')}catch(e){}
+let got={};try{got=JSON.parse(localStorage.getItem(BSTORE)||'{}')}catch(e){}
+
+const DAYS=[['d1','🛬'],['d2','⛴️'],['d3','🧊'],['d4','💎'],['d5','🏔️'],['d6','🔥'],['d7','✈️']];
+const LEVELS=[[100,'👑 湖畔传奇'],[80,'🧊 贝加尔大师'],[60,'🐻‍❄️ 蓝冰猎人'],[40,'🦭 冰面探索者'],[20,'🐰 打卡学徒'],[0,'🐣 行前萌新']];
+
+const badges=document.getElementById('badges');
+DAYS.forEach(([id,emo])=>{
+  const s=document.createElement('div');
+  s.className='badge-slot';s.textContent=emo;s.dataset.day=id;s.title='D'+id.slice(1)+' 打卡完成解锁';
+  badges.appendChild(s);
+});
+function renderBadges(){document.querySelectorAll('.badge-slot').forEach(s=>s.classList.toggle('on',!!got[s.dataset.day]));}
+renderBadges();
+
+function dayComplete(id){
+  const el=document.getElementById(id);if(!el)return false;
+  const rows=el.querySelectorAll('tr[data-id] .ckbox');
+  return rows.length>0 && [...rows].every(c=>c.checked);
+}
+function updateGlobal(){
+  const all=document.querySelectorAll('tr[data-id] .ckbox');
+  const done=document.querySelectorAll('tr[data-id].done .ckbox');
+  const pct=all.length?Math.round(done.length/all.length*100):0;
+  gFill.style.width=pct+'%';gPct.textContent=pct+'%';
+  gLevel.textContent=LEVELS.find(l=>pct>=l[0])[1];
+  DAYS.forEach(([id,emo])=>{
+    if(dayComplete(id)&&!got[id]){
+      got[id]=true;localStorage.setItem(BSTORE,JSON.stringify(got));
+      renderBadges();confetti();toast(`🎉 D${id.slice(1)} 全部打卡完成！解锁徽章 ${emo}`);
+    }
+  });
+  if(pct===100&&!got.full){
+    got.full=true;localStorage.setItem(BSTORE,JSON.stringify(got));
+    confetti(90);toast('👑 100%达成！你就是贝加尔湖畔的传奇！');
+  }
+}
+function updateProgress(dayEl){
+  const rows=dayEl.querySelectorAll('tr[data-id]');
+  const done=dayEl.querySelectorAll('tr.done').length;
+  const bar=dayEl.querySelector('.pfill'),txt=dayEl.querySelector('.ptxt');
+  if(bar){bar.style.width=(rows.length?done/rows.length*100:0)+'%';txt.textContent=done+'/'+rows.length;}
+}
+document.querySelectorAll('tr[data-id]').forEach(tr=>{
+  const cb=tr.querySelector('.ckbox');if(!cb)return;
+  if(saved[tr.dataset.id]){cb.checked=true;tr.classList.add('done');}
+  cb.addEventListener('change',()=>{
+    tr.classList.toggle('done',cb.checked);
+    if(cb.checked){saved[tr.dataset.id]=true;confetti(8);}else delete saved[tr.dataset.id];
+    localStorage.setItem(STORE,JSON.stringify(saved));
+    const d=tr.closest('.day');d&&updateProgress(d);
+    updateGlobal();
+  });
+});
+document.querySelectorAll('.day').forEach(d=>{updateProgress(d);});
+updateGlobal();
+
+/* ===== 景点数据库 & 地图 ===== */
+const REALIMG={};
+const IMG=k=>REALIMG[k]||`https://picsum.photos/seed/baikal-${k}/400/220`;
+const SPOTS={
+  pvg:{n:'上海浦东机场',ru:'PVG T2',d:'本次旅程起点，S7航空凌晨出发。',p:['值机托运','免税店补货','提前2小时到']},
+  ikt:{n:'伊尔库茨克机场',ru:'Irkutsk Intl (IKT)',d:'伊市唯一机场，距市中心约5公里，航站楼小而紧凑。',p:['海关入境约1小时','ATM取现金','买当地电话卡']},
+  hotelA:{n:'安加拉酒店',ru:'Angara Hotel',d:'市中心老牌四星，对面就是基洛夫广场，位置极佳。',p:['楼下Слата超市破零钱','寄存行李','步行游市区起点']},
+  kirov:{n:'基洛夫广场',ru:'Kirov Square',d:'伊市的心脏地带，市政厅与几座东正教堂环绕，冬日雪景出片。',p:['主显节大教堂','列宁雕像打卡','喂鸽子拍雪景']},
+  river:{n:'安加拉河边',ru:'Angara Embankment',d:'东西伯利亚唯一不冻河，冬季河面蒸汽缭绕配雾凇。',p:['冬季雾凇','河堤散步','看冰钓']},
+  gate:{n:'胜利之门',ru:'Moscow Triumphal Arch',d:'复刻莫斯科凯旋门的红色凯旋门，见证伊市百年历史。',p:['拍照打卡','连游下堤岸','夜景']},
+  flame:{n:'长明火纪念碑',ru:'Eternal Flame',d:'纪念卫国战争阵亡将士，长明火常年不熄。',p:['献花致敬','看换岗','州政府大楼前广场']},
+  stop:{n:'途中服务区',ru:'Roadside Stop',d:'伊市至奥岛陆路必停点，解决午饭和洗手间。',p:['热食快餐','纪念品','旱厕/店内厕所']},
+  ferry:{n:'MRS轮渡码头',ru:'Perekat Ferry',d:'连接大陆与奥利洪岛的轮渡，冬季冰面也可通车。',p:['喂海鸥（带面包）','拍冰面','排队体验']},
+  bear:{n:'白熊旅馆',ru:'Guest House Bear',d:'胡日尔村口碑民宿，南北线车和上岛小巴都能代办。',p:['订南北线越野车','订往返小巴','热水澡补给']},
+  shamanka:{n:'萨满岩',ru:'Shamanka Rock',d:'奥岛地标，布里亚特萨满教圣地，日落时剪影绝美。',p:['看日落','拍星轨','绕岩祈福','撸村口的狗']},
+  cairn:{n:'蓝冰玛尼堆',ru:'Ice Cairns',d:'冰面上垒起的石堆群，蓝色冰面作背景随手出大片。',p:['拍蓝冰','堆玛尼石','航拍']},
+  sagan:{n:'萨甘-呼顺角',ru:'Sagan-Khushun Cape',d:'双头峭壁下的冰洞冰柱，洞内冰挂如水晶宫。',p:['观冰洞','拍冰柱','听冰裂声']},
+  khoboy:{n:'哈伯伊角',ru:'Khoboy Cape',d:'奥岛最北端断崖，风蚀冰柱林立，运气好可见圆鳍海豹。',p:['拍冰柱群','寻贝加尔海豹','冰面鱼汤午餐']},
+  bubble:{n:'气泡冰圣地',ru:'Bubble Ice Spot',d:'甲烷气泡被冻在清澈冰层下，串串气泡如银河。',p:['躺冰听裂','拍气泡特写','冰裂纹大片']},
+  ogoy:{n:'奥戈伊岛佛塔',ru:'Ogoy Stupa',d:'小岛上白色佛塔，2005年建成，藏传佛教氛围。',p:['绕塔祈福','俯瞰湖面','拍极简大片']},
+  view:{n:'胡日尔观景台',ru:'Khuzhir Viewpoint',d:'登高俯瞰全村木屋炊烟与萨满岩同框。',p:['拍全景','日落','看星空']},
+  listvyanka:{n:'利斯特维扬卡',ru:'Listvyanka',d:'安加拉河口湖畔小镇，距伊市70公里，冰潜大本营。',p:['鱼市尝熏奥木尔鱼','切尔斯基山缆车','湖边日落']},
+  dive:{n:'三维潜水中心',ru:'3 Dimensions Dive Center',d:'贝加尔湖冰潜老牌潜店，DSD体验无需潜水证。',p:['冰下潜水30-40分钟','干衣教学','上岸伏特加仪式','水下视频拍摄']},
+  lunch:{n:'伊市快速午餐',ru:'Quick Lunch',d:'市区商场内简餐，赶时间冰潜后补给。',p:['俄式快餐','咖啡续命']},
+  patriot:{n:'爱国者射击俱乐部',ru:'Patriot Shooting Club',d:'实弹射击+军事博物馆，离机场近，支持支付宝。',p:['AK突击步枪','手枪/狙击枪','逛免费军事博物馆','教练帮拍大片']},
+  market:{n:'中央市场',ru:'Central Market',d:'本地人日常采买市集，特产平价齐全。',p:['松果蜂蜜','巧克力糖果','贝加尔鱼干']},
+  hotelY:{n:'雅科夫列夫酒店',ru:'Yakovlev Hotel',d:'130步行街旁精品酒店，逛街吃饭都方便。',p:['楼下130街区','出行便利','⚠️临街电车噪音']},
+  kv130:{n:'130步行街',ru:'130 Kvartal',d:'伊市最热闹的俄式风情街区，木屋建筑群+商铺餐厅。',p:['兰州拉面','金苹果商场','纪念品店','夜生活']}
+};
+const WGS={
+  pvg:[121.8050,31.1500], ikt:[104.3796,52.2673],
+  hotelA:[104.2822,52.2878], kirov:[104.2840,52.2825], river:[104.2905,52.2895],
+  gate:[104.2855,52.2879], flame:[104.2915,52.2897],
+  stop:[105.3000,52.6600], ferry:[106.3600,53.0460],
+  bear:[107.3320,53.1715], shamanka:[107.3397,53.1911],
+  cairn:[107.5500,53.2300], sagan:[107.4840,53.3350], khoboy:[107.5786,53.3861],
+  bubble:[107.1000,52.9500], ogoy:[106.9822,52.9867], view:[107.0300,53.0400],
+  listvyanka:[104.8680,51.8508], dive:[104.8660,51.8520],
+  lunch:[104.2840,52.2870], patriot:[104.3230,52.2540],
+  market:[104.3017,52.2847], hotelY:[104.2950,52.2820], kv130:[104.2946,52.2819]
+};
+const maps={},satOn={},satLayers={};
+function makeMap(id){
+  const m=new AMap.Map(id,{zoom:12,center:WGS.ikt,viewMode:'2D',zooms:[3,18]});
+  m.addControl(new AMap.Scale());
+  m.addControl(new AMap.ToolBar());
+  m.on('click',()=>{ m.clearInfoWindow(); });
+  satLayers[id]=new AMap.TileLayer.Satellite();
+  return m;
+}
+function toggleSat(id){
+  const m=maps[id];if(!m)return;
+  satOn[id]=!satOn[id];
+  if(satOn[id])m.add(satLayers[id]);else m.remove(satLayers[id]);
+}
+function spot(m,key,emoji,color,time,tip){
+  const ll=WGS[key],s=SPOTS[key]||{};
+  const mk=new AMap.Marker({position:ll,anchor:'bottom-center',
+    content:`<div class="pin" style="background:${color}">${emoji}</div>`});
+  mk.on('click',()=>{
+    const play=(s.p||[]).map(x=>`❄️ ${x}`).join('<br>');
+    new AMap.InfoWindow({content:
+      `<div class="binfo"><img src="${IMG(key)}" alt="${s.n||key}">
+        <div class="body"><h4>${emoji} ${s.n||key}</h4>
+        <div class="ru">${s.ru||''}</div>
+        ${time?`<div class="tm">🕐 ${time}</div>`:''}
+        <div class="desc">${s.d||''}</div>
+        <div class="play"><b>🎿 游玩项目</b><div>${play||tip||''}</div></div></div></div>`,
+      offset:new AMap.Pixel(0,-8)}).open(m,ll);
+  });
+  m.add(mk);
+}
+function seg(m,p1,p2,color,label,dash=[10,8],weight=4){
+  m.add(new AMap.Polyline({path:[WGS[p1],WGS[p2]],strokeColor:color,strokeWeight:weight,
+    strokeOpacity:.85,strokeStyle:'dashed',strokeDasharray:dash}));
+  if(label){
+    const mid=[(WGS[p1][0]+WGS[p2][0])/2,(WGS[p1][1]+WGS[p2][1])/2];
+    m.add(new AMap.Marker({position:mid,anchor:'bottom-center',
+      content:`<div class="rlabel">${label}</div>`}));
+  }
+}
+function curve(a,b,bend=.35){
+  const pts=[];for(let i=0;i<=80;i++){const t=i/80;
+    pts.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t+bend*Math.sin(Math.PI*t)*6]);}
+  return pts;
+}
+function fit(m){m.setFitView(null,false,[70,70,70,70]);}
+const C={walk:'#e8613c',taxi:'#3a6ea5',bus:'#2f6f6a',ice:'#5b8dd6',flight:'#f2b544'};
+
+function initD1(){const m=makeMap('map1');maps.d1=m;
+  spot(m,'ikt','🛬',C.taxi,'落地 · 海关约1小时','大钞去市区破');
+  spot(m,'hotelA','🏨','#7b6ca8','约09:30抵达寄存行李','行程大本营之一');
+  spot(m,'kirov','1',C.walk,'15:00-17:00','酒店对面即达');
+  spot(m,'river','2',C.walk,'15:30-16:30','冬季雾凇');
+  spot(m,'gate','3',C.walk,'17:00前后','凯旋门');
+  spot(m,'flame','4',C.walk,'17:00-18:30','长明火');
+  seg(m,'ikt','hotelA',C.taxi,'🚕 打车 20-30分钟',[4,8]);
+  seg(m,'hotelA','kirov',C.walk,'🚶 步行 2分钟');
+  seg(m,'kirov','river',C.walk,'🚶 步行 5分钟');
+  seg(m,'river','gate',C.walk,'🚶 步行 5分钟');
+  seg(m,'gate','flame',C.walk,'🚶 步行 8分钟');
+  fit(m);}
+function initD2(){const m=makeMap('map2');maps.d2=m;
+  spot(m,'hotelA','🏨',C.bus,'08:30-09:00出发','小巴2000卢布/人');
+  spot(m,'stop','☕','#a07850','11:30左右','旱厕+午饭');
+  spot(m,'ferry','⛴️','#2f8fa3','14:30-15:00','喂海鸥带面包');
+  spot(m,'bear','🏨','#7b6ca8','15:00-16:00入住','南北线大本营');
+  spot(m,'shamanka','⛩️','#d9641e','16:30-18:00日落','日落出片');
+  seg(m,'hotelA','stop',C.bus,'🚐 小巴 约2.5h');
+  seg(m,'stop','ferry',C.bus,'🚐 小巴 约2.5h');
+  seg(m,'ferry','bear',C.bus,'⛴️ 轮渡15-20分 + 🚐 30-40分');
+  seg(m,'bear','shamanka',C.walk,'🚶 步行 10-15分钟',[4,6],3.5);
+  fit(m);}
+function initD3(){const m=makeMap('map3');maps.d3=m;
+  spot(m,'bear','🏨','#7b6ca8','09:00出发','提前一天订车');
+  spot(m,'cairn','🧊',C.ice,'10:00-11:00','蓝冰玛尼堆');
+  spot(m,'sagan','🧊',C.ice,'11:30-12:30','冰洞冰柱');
+  spot(m,'khoboy','🏔️','#d9641e','13:00-14:00','最北端+鱼汤午餐');
+  spot(m,'shamanka','⛩️','#a07850','17:00日落','返程顺路');
+  seg(m,'bear','cairn',C.ice,'🚙 冰面 约1h');
+  seg(m,'cairn','sagan',C.ice,'🚙 冰面 约1h');
+  seg(m,'sagan','khoboy',C.ice,'🚙 冰面 约40分');
+  seg(m,'khoboy','bear','#b8b2a6','🚙 返程 约2.5h',[3,8],3);
+  fit(m);}
+function initD4(){const m=makeMap('map4');maps.d4=m;
+  spot(m,'bear','🏨','#7b6ca8','10:00出发','南线较晚');
+  spot(m,'bubble','💎',C.ice,'10:30-13:00','气泡冰圣地');
+  spot(m,'ogoy','🕊️','#2f8fa3','14:00-15:00','白色佛塔');
+  spot(m,'view','📸','#d9641e','15:00-16:00','俯瞰全村');
+  seg(m,'bear','bubble',C.ice,'🚙 冰面 约1.5h');
+  seg(m,'bubble','ogoy',C.ice,'🚙 冰面 约40分');
+  seg(m,'ogoy','view',C.ice,'🚙+🚶 爬坡 约30分');
+  seg(m,'view','bear','#b8b2a6','🚙 约30分',[3,8],3);
+  fit(m);}
+function initD5(){const m=makeMap('map5');maps.d5=m;
+  spot(m,'bear','🏨','#7b6ca8','09:00-10:00','返程小巴');
+  spot(m,'ferry','⛴️','#2f8fa3','10:30-11:00','过河');
+  spot(m,'hotelA','🏙️','#a07850','15:00-15:30','回到伊市');
+  spot(m,'listvyanka','🏔️','#d9641e','17:00入住','湖景民宿');
+  seg(m,'bear','ferry',C.bus,'🚐 小巴 约1.5h');
+  seg(m,'ferry','hotelA',C.bus,'⛴️+🚐 约3.5h');
+  seg(m,'hotelA','listvyanka','#e8a13c','🚌/🚕 70km 约1-1.5h',[8,6]);
+  fit(m);}
+function initD6(){const m=makeMap('map6');maps.d6=m;
+  spot(m,'dive','🤿','#2f8fa3','09:00-12:00','DSD冰潜6500-7000卢布');
+  spot(m,'listvyanka','🏔️','#7b6ca8','12:00出发','');
+  spot(m,'lunch','🍽️','#a07850','14:00左右','快速午餐');
+  spot(m,'patriot','🔫','#d9641e','15:00-16:30','实弹射击+博物馆');
+  spot(m,'market','🛒','#e8a13c','17:00-19:00','特产采购');
+  spot(m,'hotelY','🏨','#7b6ca8','晚上','130步行街旁');
+  seg(m,'listvyanka','hotelA',C.bus,'🚕/🚌 约1-1.5h');
+  seg(m,'hotelA','patriot',C.taxi,'🚕 约20分',[4,8]);
+  seg(m,'patriot','market',C.taxi,'🚕 约20分',[4,8]);
+  seg(m,'market','hotelY',C.walk,'🚶 步行 10分钟',[4,6],3.5);
+  fit(m);}
+function initD7(){const m=makeMap('map7');maps.d7=m;
+  spot(m,'kv130','🛍️',C.walk,'上午','最后补漏');
+  spot(m,'hotelY','🏨','#7b6ca8','','马路对面130');
+  spot(m,'ikt','🛬',C.taxi,'出发前2.5小时','顺路可补爱国者');
+  seg(m,'kv130','hotelY',C.walk,'🚶 步行 2分钟',[4,6],3.5);
+  seg(m,'hotelY','ikt',C.taxi,'🚕 约30分',[4,8]);
+  fit(m);}
+function initAll(){const m=makeMap('mapAll');maps.all=m;
+  m.add(new AMap.Polyline({path:curve(WGS.pvg,WGS.ikt),strokeColor:C.flight,strokeWeight:3.5,strokeOpacity:.9}));
+  spot(m,'pvg','沪','#2f6f6a','03:20起飞','S7直飞4.5h');
+  seg(m,'hotelA','stop',C.bus,'🚐 约2.5h');
+  seg(m,'stop','ferry',C.bus,'🚐 约2.5h');
+  seg(m,'ferry','bear',C.bus,'⛴️+🚐 约1h');
+  seg(m,'hotelA','listvyanka','#e8a13c','🚌/🚕 约1-1.5h',[8,6]);
+  seg(m,'bear','cairn',C.ice,'🚙 约1h');
+  seg(m,'cairn','sagan',C.ice,'🚙 约1h');
+  seg(m,'sagan','khoboy',C.ice,'🚙 约40分');
+  seg(m,'bear','bubble',C.ice,'🚙 约1.5h');
+  seg(m,'bubble','ogoy',C.ice,'🚙 约40分');
+  seg(m,'hotelA','patriot',C.walk,'🚕 约20分',[3,6],3);
+  seg(m,'market','hotelY',C.walk,'🚶 10分',[3,6],3);
+  spot(m,'ikt','🛬',C.taxi,'D1落地/D7返程');
+  spot(m,'hotelA','🏨','#7b6ca8','D1');
+  spot(m,'bear','🏨','#7b6ca8','D2-D4大本营');
+  spot(m,'shamanka','⛩️','#d9641e','D2/D3日落');
+  spot(m,'khoboy','🏔️',C.ice,'D3北线');
+  spot(m,'ogoy','🕊️',C.ice,'D4南线');
+  spot(m,'listvyanka','🏔️','#e8a13c','D5-D6');
+  spot(m,'dive','🤿','#2f8fa3','D6上午');
+  spot(m,'patriot','🔫','#d9641e','D6下午');
+  spot(m,'hotelY','🏨','#7b6ca8','D6-D7');
+  fit(m);}
+
+const inited={};
+const initFn={d1:initD1,d2:initD2,d3:initD3,d4:initD4,d5:initD5,d6:initD6,d7:initD7,all:initAll};
+const btns=document.querySelectorAll('nav button');
+btns.forEach(b=>b.onclick=()=>{
+  btns.forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  document.querySelectorAll('.day').forEach(d=>d.classList.remove('show'));
+  document.getElementById(b.dataset.d).classList.add('show');
+  const id=b.dataset.d;
+  if(!inited[id]){initFn[id]();inited[id]=true;}
+  setTimeout(()=>{maps[id]&&maps[id].resize&&maps[id].resize()},100);
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+initD1();inited.d1=true;
+</script>
+</body>
+</html>
